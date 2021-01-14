@@ -174,40 +174,6 @@ def my_notes(**kwargs):
     notes = models.Note.query.filter_by(user_id=user.id)
     return render_template('my_notes.html', notes=notes)
 
-'''
-@web.route('/notes/authorize/<note_id>', methods=['GET', 'POST'])
-@protected
-@note_protection
-@csrf_protected
-def note_authorize(note_id, **kwargs):
-    note = models.Note.query.get(note_id)
-    user = kwargs['user']
-    if request.method == 'GET':
-        if note.password:
-            return render_template('note_authorize.html', note_id=note_id)
-        else:
-            return render_template('note.html', note=note)
-    elif request.method == 'POST':
-        password = request.form.get('password')
-        if note.check_password(password):
-            token = models.NoteToken.register(user_id=user.id, note_id=note.id)
-            return redirect(url_for('web.note_detail', token_id=token.id))
-        else:
-            error = 'Niewłaściwe hasło.'
-            return render_template('note_authorize.html', note_id=note_id, errors=[error])
-
-
-@web.route('/notes/<token_id>')
-@protected
-@note_protection
-def note_detail(token_id, **kwargs):
-    token = models.NoteToken.query.get(token_id)
-    user = kwargs['user']
-    note_id = token.verify(user.id)
-    note = models.Note.query.get(note_id)
-    token.delete()
-    return render_template('note.html', note=note)
-'''
 
 @web.route('/notes/authorize/<note_id>', methods=['GET', 'POST'])
 @protected
@@ -215,7 +181,6 @@ def note_detail(token_id, **kwargs):
 @csrf_protected
 def note_authorize(note_id, **kwargs):
     note = models.Note.query.get(note_id)
-    user = kwargs['user']
     if request.method == 'GET':
         if note.password:
             return render_template('note_authorize.html', note_id=note_id)
@@ -233,6 +198,7 @@ def note_authorize(note_id, **kwargs):
 def note_detail(note, password):
     note.plaintext = note.get_plaintext(password)
     return render_template('note.html', note=note)
+
 
 @web.route('/download-note/<note_id>')
 @protected

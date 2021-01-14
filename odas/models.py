@@ -240,31 +240,6 @@ class Note(db.Model):
         return base64.b64encode(encrypted), key_salt, iv
 
 
-class NoteToken(db.Model):
-    id = db.Column(db.String(36), primary_key=True, default=generate_uuid, unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    note_id = db.Column(db.String(36), db.ForeignKey('note.id'), nullable=False)
-    timestamp = db.Column(db.DateTime(), default=datetime.now)
-
-    @staticmethod
-    def register(**kwargs):
-        nt = NoteToken(**kwargs)
-        db.session.add(nt)
-        db.session.commit()
-        return nt
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-
-    def verify(self, user_id):
-        max_time = self.timestamp + timedelta(seconds=NOTE_TOKEN_DURATION_SEC)
-        if self.user_id == user_id and datetime.now() <= max_time:
-            return self.note_id
-        else:
-            return False
-
-
 class LoginAttempt(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50))
