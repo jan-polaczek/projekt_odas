@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+{% block title %}Nowa notatka{% endblock %}
+{% block content %}
+     <div class="main">
+        <h2>Nowa notatka</h2>
+        <form action="{{ url_for('web.new_note') }}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <ul>
+                <li class="form-group">
+                    <label for="title" class="hidden">Tytuł</label>
+                    <input type="text" id="title" name="title" class="form-item" maxlength="30" placeholder="Tytuł (maks. 30 znaków)" required>
+                </li>
+                <li class="form-group">
+                    <label for="text" class="hidden">Treść</label>
+                    <textarea id="text" name="text" class="form-item" placeholder="Treść (maks. 1000 znaków)..." maxlength="1000" rows="10" cols="50"></textarea>
+                </li>
+                <li class="form-group">
+                    <label for="attachment">Załącznik (maks. 10MB):</label>
+                    <input type="file" id="attachment" name="attachment" class="form-item" placeholder="Załącznik">
+                </li>
+                <li class="form-group">
+                    <label for="is-public">Publiczna?</label>
+                    <input type="checkbox" id="is-public" name="is_public" class="form-item">
+                </li>
+                <li class="form-group">
+                    <label for="password" class="hidden">Hasło</label>
+                    <input type="password" id="password" name="password" autocomplete="password" class="form-item" placeholder="Hasło (opcjonalne)">
+                </li>
+                <li class="form-group">
+                    <input type="submit" value="Zapisz" class="btn btn-primary">
+                </li>
+            </ul>
+        </form>
+    </div>
+{% endblock %}

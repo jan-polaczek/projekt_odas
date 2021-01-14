@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+{% block title %}Moje notatki{% endblock %}
+{% block content %}
+    <div class="main">
+        <h2>Moje notatki</h2>
+        <table class="note-table">
+            <thead>
+                <th>Tytuł</th>
+                <th>Zabezpieczona?</th>
+                <th>Załącznik?</th>
+                <th>Publiczna?</th>
+            </thead>
+            <tbody>
+                {% for note in notes %}
+                    <tr class="note-container">
+                        <td class="note-item"><a href="{{ url_for('web.note_authorize', note_id=note.id) }}">{{ note.title }}</a></td>
+                        <td class="note-itme">
+                            {% if note.password %}
+                                <img src="{{ url_for('static', filename='images/tick.svg') }}" alt="Tak" class="icon-small">
+                            {% else %}
+                                <img src="{{ url_for('static', filename='images/cross.svg') }}" alt="Nie" class="icon-small">
+                            {% endif %}
+                        </td>
+                        <td class="note-itme">
+                            {% if note.filename %}
+                                <img src="{{ url_for('static', filename='images/tick.svg') }}" alt="Tak" class="icon-small">
+                            {% else %}
+                                <img src="{{ url_for('static', filename='images/cross.svg') }}" alt="Nie" class="icon-small">
+                            {% endif %}
+                        </td>
+                        <td class="note-itme">
+                            {% if note.is_public %}
+                                <img src="{{ url_for('static', filename='images/tick.svg') }}" alt="Tak" class="icon-small">
+                            {% else %}
+                                <img src="{{ url_for('static', filename='images/cross.svg') }}" alt="Nie" class="icon-small">
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
