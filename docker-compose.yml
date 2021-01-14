@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  nginx:
+    image: nginx
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx-uwsgi.conf:/etc/nginx/nginx.conf
+      - ./polaczek.odas.com.crt:/etc/nginx/polaczek.odas.com.crt
+      - ./polaczek.odas.com.key:/etc/nginx/polaczek.odas.com.key
+    depends_on:
+      - web
+  web:
+    build: .
+    command: gunicorn --bind 0.0.0.0:443 manage:app
+    environment:
+      - FLASK_APP=odas
+    depends_on:
+      - db
+    volumes:
+      - ./odas:/var/www/app
+  db:
+    image: mysql:8.0.19
+    command: '--default-authentication-plugin=mysql_native_password'
+    restart: always
+    environment:
+      - MYSQL_DATABASE=odas
+      - MYSQL_ROOT_PASSWORD=root
+    security_opt:
+      - seccomp:unconfined

@@ -1,0 +1,12 @@
+flask
+python-dotenv
+bcrypt
+flask_sqlalchemy
+pymysql
+sqlalchemy
+pyOpenSSL
+email-validator
+werkzeug
+Flask-Mail
+ipinfo
+PyCryptodome
