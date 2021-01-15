@@ -1,7 +1,7 @@
-version: "3.8"
+version: "3.7"
 services:
   nginx:
-    image: nginx
+    image: chaberb/nginx-ssl
     ports:
       - "443:443"
     volumes:
@@ -12,13 +12,14 @@ services:
       - web
   web:
     build: .
-    command: gunicorn --bind 0.0.0.0:443 manage:app
+    env_file:
+      - ./.env.prod
     environment:
-      - FLASK_APP=odas
+      - FLASK_APP=app
     depends_on:
       - db
     volumes:
-      - ./odas:/var/www/app
+      - ./app:/var/www/app
   db:
     image: mysql:8.0.19
     command: '--default-authentication-plugin=mysql_native_password'

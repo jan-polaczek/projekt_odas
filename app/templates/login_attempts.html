@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block title %}Próby logowania{% endblock %}
+{% block content %}
+    <div class="main">
+        <h2>Próby logowania na moje konto</h2>
+        <table class="note-table">
+            <thead>
+                <th>Data</th>
+                <th>Adres IP</th>
+                <th>Lokalizacja</th>
+                <th>Próba udana?</th>
+            </thead>
+            <tbody>
+                {% for attempt in attempts %}
+                    <tr class="note-container">
+                        <td class="note-item">{{ attempt.timestamp }}</td>
+                        <td class="note-item">{{ attempt.ip }}</td>
+                        <td class="note-item">{{ attempt.location }}</td>
+                        <td class="note-itme">
+                            {% if attempt.successful %}
+                                <img src="{{ url_for('static', filename='images/tick.svg') }}" alt="Tak" class="icon-small">
+                            {% else %}
+                                <img src="{{ url_for('static', filename='images/cross.svg') }}" alt="Nie" class="icon-small">
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

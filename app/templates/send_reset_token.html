@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block title %}Odzyskaj hasło{% endblock %}
+{% block content %}
+     <div class="main">
+        <h2>Odzyskaj hasło</h2>
+        <form action="{{ url_for('web.send_reset_token') }}" method="post" enctype="multipart/form-data">
+        <ul>
+            <li class="form-group">
+                <label for="email" class="hidden">Adres email</label>
+                <input type="text" id="email" name="email" autocomplete="email" class="form-item" placeholder="Adres email" required>
+            </li>
+            <li class="form-group">
+                <input type="submit" value="Wyślij" class="btn btn-primary">
+            </li>
+        </ul>
+        </form>
+    </div>
+{% endblock %}

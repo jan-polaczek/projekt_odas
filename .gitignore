@@ -1,4 +1,10 @@
 /.env
+/.env.prod
 /venv/
-/uploads/
+/uploads/*
 /data.json
+/*.key
+/*.crt
+/.idea/
+/__pycache__/
+/app/__pycache__/
